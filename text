@@ -1,0 +1,10 @@
+CREATE OR replace TRIGGER check_lector_id1BEFORE UPDATE ON lecturer
+FOR EACH ROWDECLARE
+v_expected_number NUMBER;v_threshold NUMBER := 5;
+BEGINv_expected_number := :OLD.lecturer_id;
+IF ABS(:NEW.lecturer_id - v_expected_number) > v_threshold THENraise_application_error (-20001, 'Уклонение номера лектора превышает порог');
+END IF;END;
+
+
+UPDATE lecturerSET lecturer_id = 109
+WHERE lecturer_id = 103;
